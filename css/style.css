@@ -2,6 +2,11 @@ body {
  /*padding: 10px 0;*/
 }
 
+.navbar-default .navbar-collapse {
+ padding-top: 10px;
+ padding-bottom: 10px;
+}
+
 .main-h {
  font-size: 26px;
 }
@@ -14,6 +19,10 @@ body {
  font-size: 24px;
 }
 
+
+.table {
+ margin-bottom: 11px;
+}
 
 .table-skills .years,
 .table-skills .skill {
