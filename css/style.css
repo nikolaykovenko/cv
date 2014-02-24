@@ -1,0 +1,33 @@
+body {
+ /*padding: 10px 0;*/
+}
+
+.main-h {
+ font-size: 26px;
+}
+
+.main-section {
+ padding-bottom: 10px;
+}
+
+.main-section-h {
+ font-size: 24px;
+}
+
+
+.table-skills .years,
+.table-skills .skill {
+ width: 25%;
+}
+
+
+[data-toggle="tooltip"] {
+ color: #2A6496;
+ border-bottom: 1px dotted #2A6496;
+ cursor: default;
+}
+
+.note {
+ padding-top: 20px;
+ font-size: 12px;
+}
