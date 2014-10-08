@@ -15,10 +15,22 @@
  {
   if (!in_array($attr, $item->$hidden_attr_method()))
   {
+   $relation = $item->getActiveRelation($attr);
+   
    echo '<div class="row">'.
 	     CHtml::activeLabel($item, $attr);
-   
-   echo CHtml::activeTextField($item, $attr);
+
+
+//   TODO: Вынести из шаблона в отдельный помошник
+   if (!empty($relation) and get_class($relation) == 'CBelongsToRelation')
+   {
+	$className = $relation->className;
+	echo CHtml::activeDropDownList($item, $attr, CHtml::listData($className::model()->findAll(), 'id', 'caption'));
+   }
+   else
+   {
+	echo CHtml::activeTextField($item, $attr);
+   }
    
    echo '</div>';
   }

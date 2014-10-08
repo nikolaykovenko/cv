@@ -55,6 +55,7 @@ class AdminController extends CController {
   */
  public function actionView($model, $id)
  {
+  /** @var BaseActiveRecord $item */
   $item = $model::model()->findByPk($id);
   if (empty($item)) throw new CHttpException(404);
 
