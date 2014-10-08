@@ -12,7 +12,7 @@
  * The followings are the available model relations:
  * @property ParameterValues[] $parameterValues
  */
-class Categories extends CActiveRecord
+class Categories extends BaseActiveRecord
 {
 	/**
 	 * @return string the associated database table name

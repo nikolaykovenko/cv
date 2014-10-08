@@ -13,7 +13,7 @@
  * The followings are the available model relations:
  * @property Categories $externalParent
  */
-class ParameterValues extends CActiveRecord
+class ParameterValues extends BaseActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -60,7 +60,7 @@ class ParameterValues extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'external_parent' => 'External Parent',
+			'external_parent' => 'Category',
 			'caption' => 'Caption',
 			'value' => 'Value',
 			'rate' => 'Rate',
