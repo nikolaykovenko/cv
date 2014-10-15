@@ -49,7 +49,7 @@ class ParameterValues extends BaseActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'external_parent' => array(self::BELONGS_TO, 'Categories', 'external_parent'),
+			'externalParent' => array(self::BELONGS_TO, 'Categories', 'external_parent'),
 		);
 	}
 

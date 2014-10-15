@@ -23,6 +23,8 @@ class AdminController extends CController {
  public function __construct($id, $module = null)
  {
   parent::__construct($id, $module);
+
+  Yii::setPathOfAlias('NCMS', Yii::getPathOfAlias('ext').'/NCMS');
   
   $this->menu = array(
 	  array('label'=>'list', 'url'=>array('index', 'model'=>$_GET['model'])),
@@ -58,8 +60,11 @@ class AdminController extends CController {
   /** @var BaseActiveRecord $item */
   $item = $model::model()->findByPk($id);
   if (empty($item)) throw new CHttpException(404);
+  $item->scenario = 'fullItemView';
+  
+  $renderer = new \NCMS\admin\FullViewItemRenderer($item);
 
-  $this->render('itemFullView', array('model'=>$model, 'item'=>$item));
+  $this->render('simpleRenderer', array('renderer'=>$renderer, 'itemsList'=>$this->renderItemList($item)));
  }
 
  /**
@@ -68,13 +73,13 @@ class AdminController extends CController {
   */
  public function actionAdd($model)
  {
-  $action = 'add';
-  
   /** @var BaseActiveRecord $model */
-  $model = new $model($action);
-  if ($this->save_model($model)) $this->redirect('index.php?r=admin/edit&model='.get_class($model).'&id='.$model->id);
+  $model = new $model();
+  if ($this->saveModel($model)) $this->redirect('index.php?r=admin/edit&model='.get_class($model).'&id='.$model->id);
 
-  $this->render('itemForm', array('item'=>$model, 'action'=>$action));
+  $renderer = new NCMS\admin\EditFormRenderer($model);
+  
+  $this->render('simpleRenderer', array('renderer'=>$renderer, 'itemsList'=>$this->renderItemList($model)));
  }
 
  /**
@@ -85,15 +90,15 @@ class AdminController extends CController {
   */
  public function actionEdit($model, $id)
  {
-  $action = 'edit';
-  
   /** @var BaseActiveRecord $model */
-  $model = new $model($action);
+  $model = new $model();
   $model = $model->findByPk($id);
   if (empty($model)) throw new CHttpException(404);
-  if ($this->save_model($model)) $this->redirect('index.php?r=admin/edit&model='.get_class($model).'&id='.$model->id);
+  if ($this->saveModel($model)) $this->redirect('index.php?r=admin/edit&model='.get_class($model).'&id='.$model->id);
+  
+  $renderer = new NCMS\admin\EditFormRenderer($model);
 
-  $this->render('itemForm', array('item'=>$model, 'action'=>'edit'));
+  $this->render('simpleRenderer', array('renderer'=>$renderer, 'itemsList'=>$this->renderItemList($model)));
  }
 
  /**
@@ -122,7 +127,7 @@ class AdminController extends CController {
   * @param BaseActiveRecord $model
   * @returns bool
   */
- private function save_model(BaseActiveRecord $model)
+ private function saveModel(BaseActiveRecord $model)
  {
   if (!empty($_POST[get_class($model)]))
   {
@@ -132,5 +137,17 @@ class AdminController extends CController {
   }
   
   return false;
+ }
+
+ /**
+  * Возвращает таблицу элементов для модели
+  * @param BaseActiveRecord $model
+  * @throws CException
+  * @returns string
+  */
+ private function renderItemList(BaseActiveRecord $model)
+ {
+  $dataProvider = new CActiveDataProvider($model);
+  return $this->renderPartial('index', array('model'=>$model, 'dataProvider'=>$dataProvider, 'message'=>''), true); 
  }
 }

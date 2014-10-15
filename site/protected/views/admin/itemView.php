@@ -9,7 +9,24 @@
   {
    if (!in_array($attr, $data->listHiddenAttributes()))
    {
-	echo '<b>'.$data->getAttributeLabel($attr).'</b>: '.$attrValue.'<br>';
+	$relation = $data->getActiveRelation($attr);
+	
+	echo '<b>'.$data->getAttributeLabel($attr).'</b>: ';
+	
+	if ($attr == 'external_parent')
+	{
+	 echo $data->externalParent->caption;
+	}
+	
+	if (empty($relation)) echo $attrValue;
+	else
+	{
+	 echo '<pre>';
+	 print_r($data);
+	 echo '</pre>';
+	}
+	
+	echo '<br>';
    }
   }
  ?>

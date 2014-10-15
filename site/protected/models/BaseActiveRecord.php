@@ -32,7 +32,7 @@ abstract class BaseActiveRecord extends CActiveRecord {
   * Массив атрибутов, которые скрываются в форме создания нового элемента
   * @return array
   */
- public function addHiddenAttributes()
+ public function insertHiddenAttributes()
  {
   return array('id');
  }
@@ -41,8 +41,8 @@ abstract class BaseActiveRecord extends CActiveRecord {
   * Массив атрибутов, которые скрываются в форме редактирования элемента
   * @return array
   */
- public function editHiddenAttributes()
+ public function updateHiddenAttributes()
  {
-  return $this->addHiddenAttributes();
+  return $this->insertHiddenAttributes();
  }
 }
