@@ -1,5 +1,5 @@
 <?php /* @var $this Controller */ ?>
-<?php $this->beginContent('//layouts/main'); ?>
+<?php $this->beginContent('//layouts/admin'); ?>
 <div class="span-19">
 	<div id="content">
 		<?php echo $content; ?>
@@ -8,6 +8,10 @@
 <div class="span-5 last">
 	<div id="sidebar">
 	<?php
+	$this->beginWidget('zii.widgets.CPortlet', array('title'=>'Разделы',));
+	$this->widget('zii.widgets.CMenu',array('items'=>$this->adminHelper->getModulesNav()));
+	$this->endWidget();
+	
 		$this->beginWidget('zii.widgets.CPortlet', array(
 			'title'=>'Operations',
 		));

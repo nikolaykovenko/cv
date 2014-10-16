@@ -16,6 +16,11 @@ class AdminController extends CController {
  public $layout = '//layouts/column2';
 
  /**
+  * @var \NCMS\admin\AdminHelper
+  */
+ protected $adminHelper;
+
+ /**
   * @var array правое меню
   */
  public $menu = array();
@@ -25,10 +30,11 @@ class AdminController extends CController {
   parent::__construct($id, $module);
 
   Yii::setPathOfAlias('NCMS', Yii::getPathOfAlias('ext').'/NCMS');
+  $this->adminHelper = new \NCMS\admin\AdminHelper();
   
   $this->menu = array(
-	  array('label'=>'list', 'url'=>array('index', 'model'=>$_GET['model'])),
-	  array('label'=>'add', 'url'=>array('add', 'model'=>$_GET['model']))
+	  array('label'=>'list', 'url'=>array('index', 'model'=>Yii::app()->request->getParam('model'))),
+	  array('label'=>'add', 'url'=>array('add', 'model'=>Yii::app()->request->getParam('model')))
   );
  }
 
@@ -38,15 +44,19 @@ class AdminController extends CController {
   * Вывд списка элементов модели
   * @param string $model
   */
- public function actionIndex($model)
+ public function actionIndex($model = '')
  {
-  $model = new $model;
-  $dataProvider = new CActiveDataProvider($model);
+  if (!empty($model))
+  {
+   $model = new $model;
+   $dataProvider = new CActiveDataProvider($model);
 
-  $message = '';
-  if (isset($_GET['deleted'])) $message = 'Элемент ID '.$_GET['deleted'].' успешно удален';
+   $message = '';
+   if (isset($_GET['deleted'])) $message = 'Элемент ID '.$_GET['deleted'].' успешно удален';
 
-  $this->render('index', array('model'=>$model, 'dataProvider'=>$dataProvider, 'message'=>$message));
+   $this->render('index', array('model'=>$model, 'dataProvider'=>$dataProvider, 'message'=>$message));
+  }
+  else $this->render('text', array('caption'=>'Добро пожаловать!', 'text'=>'Вас првиетствует NCMS4! Пожалуйста, выберите интересующий Вас раздел в главном меню =>>'));
  }
 
  /**

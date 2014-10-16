@@ -84,5 +84,6 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
+	 	'modules'=>array('categories'=>'Категории', 'parametervalues'=>'Значения')
 	),
 );
