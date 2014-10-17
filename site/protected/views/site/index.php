@@ -9,12 +9,35 @@
   <dl>
    <?php foreach ($category->parameterValues as $parameter): ?>
 	<dt><?= $parameter['caption'] ?></dt>
-	<dd><p><?= $parameter['value']; ?></p></dd>
+	<dd>
+	 <?= !empty($parameter['value']) ? '<p>'.$parameter['value'].'</p>' : ''; ?>
+	 <?php if (!empty($parameter['skills'])): ?>
+	 <table class="table table-condensed table-hover table-skills">
+	  <thead>
+	  <tr>
+	   <th>Item</th>
+	   <th class="years">No. of years</th>
+	   <th class="skill">Skill level</th>
+	  </tr>
+	  </thead>
+	  <tbody>
+	  <?php foreach ($parameter['skills'] as $skill): ?>
+	   <tr>
+		<td><?= $skill['caption']; ?></td>
+		<td><?= $skill['years']; ?></td>
+		<td><?= $skill['level']; ?></td>
+	   </tr>
+	  <?php endforeach ?>
+	  </tbody>
+	  </table>
+	 <?php endif ?>
+	</dd>
    <?php endforeach ?>
   </dl>
  </section>
 <?php endforeach; ?>
 
+<!--
 <section class="main-section">
  <h2 class="main-section-h" id="skills">Skills matrix</h2>
  <div class="row">
@@ -163,3 +186,4 @@
   <p>* Skill level: 1 – Theoretical knowledge; 2 - Junior; 3 – Confirmed experience; 4 – Advanced experienced; 5 – Senior expert.</p>
  </aside>
 </section>
+-->

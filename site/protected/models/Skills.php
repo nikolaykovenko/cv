@@ -1,27 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "parameter_values".
+ * This is the model class for table "skills".
  *
- * The followings are the available columns in table 'parameter_values':
+ * The followings are the available columns in table 'skills':
  * @property string $id
  * @property string $external_parent
  * @property string $caption
- * @property string $value
+ * @property string $years
+ * @property string $level
  * @property integer $rate
  *
  * The followings are the available model relations:
- * @property Categories $externalParent
- * @property Skills[] $skills
+ * @property ParameterValues $externalParent
  */
-class ParameterValues extends BaseActiveRecord
+class Skills extends BaseActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'parameter_values';
+		return 'skills';
 	}
 
 	/**
@@ -32,13 +32,14 @@ class ParameterValues extends BaseActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('external_parent, caption, value', 'required'),
+			array('external_parent, caption, years, level', 'required'),
 			array('rate', 'numerical', 'integerOnly'=>true),
-			array('external_parent', 'length', 'max'=>10),
-			array('caption, value', 'length', 'max'=>255),
+			array('external_parent, years', 'length', 'max'=>10),
+			array('caption', 'length', 'max'=>255),
+			array('level', 'length', 'max'=>32),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_parent, caption, value, rate', 'safe', 'on'=>'search'),
+			array('id, external_parent, caption, years, level, rate', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,8 +51,7 @@ class ParameterValues extends BaseActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'externalParent' => array(self::BELONGS_TO, 'Categories', 'external_parent'),
-			'skills' => array(self::HAS_MANY, 'Skills', 'external_parent'),
+			'externalParent' => array(self::BELONGS_TO, 'ParameterValues', 'external_parent'),
 		);
 	}
 
@@ -62,9 +62,10 @@ class ParameterValues extends BaseActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'external_parent' => 'Category',
+			'external_parent' => 'External Parent',
 			'caption' => 'Caption',
-			'value' => 'Value',
+			'years' => 'Years',
+			'level' => 'Level',
 			'rate' => 'Rate',
 		);
 	}
@@ -90,7 +91,8 @@ class ParameterValues extends BaseActiveRecord
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('external_parent',$this->external_parent,true);
 		$criteria->compare('caption',$this->caption,true);
-		$criteria->compare('value',$this->value,true);
+		$criteria->compare('years',$this->years,true);
+		$criteria->compare('level',$this->level,true);
 		$criteria->compare('rate',$this->rate);
 
 		return new CActiveDataProvider($this, array(
@@ -102,7 +104,7 @@ class ParameterValues extends BaseActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ParameterValues the static model class
+	 * @return Skills the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
