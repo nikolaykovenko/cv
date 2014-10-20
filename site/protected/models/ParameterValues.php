@@ -9,6 +9,7 @@
  * @property string $caption
  * @property string $value
  * @property integer $rate
+ * @property integer $in_new_column
  *
  * The followings are the available model relations:
  * @property Categories $externalParent
@@ -34,11 +35,12 @@ class ParameterValues extends BaseActiveRecord
 		return array(
 			array('external_parent, caption, value', 'required'),
 			array('rate', 'numerical', 'integerOnly'=>true),
+			array('in_new_column', 'boolean'),
 			array('external_parent', 'length', 'max'=>10),
 			array('caption, value', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_parent, caption, value, rate', 'safe', 'on'=>'search'),
+			array('id, external_parent, caption, value, rate, in_new_column', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,6 +68,7 @@ class ParameterValues extends BaseActiveRecord
 			'caption' => 'Caption',
 			'value' => 'Value',
 			'rate' => 'Rate',
+			'in_new_column' => 'In New Column (For matrix skills)',
 		);
 	}
 
@@ -92,6 +95,7 @@ class ParameterValues extends BaseActiveRecord
 		$criteria->compare('caption',$this->caption,true);
 		$criteria->compare('value',$this->value,true);
 		$criteria->compare('rate',$this->rate);
+		$criteria->compare('in_new_column',$this->in_new_column);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

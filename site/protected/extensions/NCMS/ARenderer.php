@@ -96,6 +96,27 @@ abstract class ARenderer extends \CComponent implements IRenderer {
  }
 
  /**
+  * Возвращает тип атрибута
+  * @param string $attr
+  * @return string
+  */
+ protected function selectAttrType($attr)
+ {
+  $relation = $this->getAttrRelation($attr);
+  if (!empty($relation)) return 'CBelongsToRelation';
+
+  foreach ($this->getModel()->getValidators($attr) as $validator)
+  {
+   if (get_class($validator) == 'CBooleanValidator') return 'boolean';
+  }
+  
+  return 'string';
+ }
+ 
+ 
+ 
+
+ /**
   * Возвращает ассоциативный массив атрибутов, которые участвуют в связях
   * Ключ - имя атрибута, значение - тип связи
   * @return array
@@ -104,7 +125,15 @@ abstract class ARenderer extends \CComponent implements IRenderer {
  {
   $result = array();
   $relations = $this->getModel()->relations();
-  foreach ($relations as $relationName => $relation) $result[$relation[2]] = $this->getModel()->getActiveRelation($relationName);
+  foreach ($relations as $relationName => $relation)
+  {
+   switch ($relation[0])
+   {
+	case 'CBelongsToRelation':
+	 $result[$relation[2]] = $this->getModel()->getActiveRelation($relationName);
+	 break;
+   }
+  }
   
   return $result;
  }

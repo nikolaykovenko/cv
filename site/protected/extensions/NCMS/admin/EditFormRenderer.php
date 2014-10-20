@@ -27,19 +27,24 @@ class EditFormRenderer extends \NCMS\ARenderer {
   {
    if (!$this->isAttrHidden($attr))
    {
-	$relation = $this->getAttrRelation($attr);
 	$result .= '<div class="row">'.
 				\CHtml::activeLabel($this->model, $attr);
 
 
-	if (!empty($relation) and get_class($relation) == 'CBelongsToRelation')
+	switch ($this->selectAttrType($attr))
 	{
-	 $className = $relation->className;
-	 $result .= \CHtml::activeDropDownList($this->model, $attr, \CHtml::listData($className::model()->findAll(), 'id', 'caption'));
-	}
-	else
-	{
-	 $result .= \CHtml::activeTextField($this->model, $attr);
+	 case 'CBelongsToRelation':
+	  $className = $this->getAttrRelation($attr)->className;
+	  $result .= \CHtml::activeDropDownList($this->model, $attr, \CHtml::listData($className::model()->findAll(), 'id', 'caption'));
+	  break;
+	 
+	 case 'boolean':
+	  $result .= \CHtml::activeCheckBox($this->model, $attr);
+	  break;
+	 
+	 default:
+	  $result .= \CHtml::activeTextField($this->model, $attr);
+	  break;
 	}
 
 	$result .= '</div>';

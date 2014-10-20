@@ -8,6 +8,7 @@
  * @property integer $rate
  * @property string $static
  * @property string $caption
+ * @property bool $skills_matrix
  *
  * The followings are the available model relations:
  * @property ParameterValues[] $parameterValues
@@ -32,11 +33,12 @@ class Categories extends BaseActiveRecord
 		return array(
 			array('static, caption', 'required'),
 			array('rate', 'numerical', 'integerOnly'=>true),
+			array('skills_matrix', 'boolean'),
 			array('static, caption', 'length', 'max'=>255),
 		 	array('static', 'match', 'pattern'=>"/^[\S\d-]+$/", 'message'=>'Статик может модержать только буквы, цифры и дефис'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, rate, static, caption', 'safe', 'on'=>'search'),
+			array('id, rate, static, caption, skills_matrix', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,6 +64,7 @@ class Categories extends BaseActiveRecord
 			'rate' => 'Rate',
 			'static' => 'Static',
 			'caption' => 'Caption',
+			'skills_matrix' => 'Skills Matrix',
 		);
 	}
 
@@ -87,6 +90,7 @@ class Categories extends BaseActiveRecord
 		$criteria->compare('rate',$this->rate);
 		$criteria->compare('static',$this->static,true);
 		$criteria->compare('caption',$this->caption,true);
+		$criteria->compare('skills_matrix',$this->skills_matrix);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
