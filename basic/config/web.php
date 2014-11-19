@@ -37,6 +37,9 @@ $config = [
                 ],
             ],
         ],
+		'helpers' => [
+			'class' => 'app\ncmscore\core\Helpers',
+		],
         'db' => require(__DIR__ . '/db.php'),
     ],
     'params' => $params,
