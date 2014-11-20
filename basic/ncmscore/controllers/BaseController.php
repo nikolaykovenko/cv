@@ -22,6 +22,12 @@ abstract class BaseController extends Controller {
 	 * @var null|ActiveModel
 	 */
 	protected $model;
+
+	/**
+	 * Возвращает название модели
+	 * @return string|null
+	 */
+	abstract public function getModelName();
 	
 	/**
 	 * Возвращает главную модель контроллера
@@ -32,7 +38,7 @@ abstract class BaseController extends Controller {
 	protected function getModel($itemId = null)
 	{
 		if (is_null($this->model)) {
-			$modelName = \Yii::$app->request->get('model');
+			$modelName = $this->getModelName();
 			if (empty($modelName)) throw new Exception('empty model param');
 
 			$fullModelName = 'app\models\\'.ucfirst(strtolower($modelName));

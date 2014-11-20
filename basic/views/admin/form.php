@@ -1,5 +1,4 @@
 <?php
-
 use \app\ncmscore\widgets\ActiveForm;
 
 /** @var \app\ncmscore\models\ActiveModel $model */
@@ -11,3 +10,6 @@ use \app\ncmscore\widgets\ActiveForm;
 	
 	<?php ActiveForm::end(); ?>
 </div>
+
+<?// TODO: Перенести в layout ?>
+<?= isset($dataProvider) ? $this->render('index', ['dataProvider' => $dataProvider]) : '' ?>

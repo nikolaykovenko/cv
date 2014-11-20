@@ -6,6 +6,7 @@
  */
 
 namespace app\ncmscore\controllers;
+
 use app\ncmscore\models\ActiveModel;
 
 /**
@@ -13,24 +14,29 @@ use app\ncmscore\models\ActiveModel;
  */
 class BaseAdminController extends BaseController {
 
+	/**
+	 * @var string сообщение для вывода
+	 */
+	public $message = '';
+
+	/**
+	 * @var string класс алерта сообщения
+	 */
+	public $messageClass = 'alert-info';
+
 //	public $layout = '';
 
 	/**
 	 * Отображение списка элементов
-	 * @param string $message сообщение для вывода
-	 * @param string $messageClass класс сообщения
 	 * @return string
 	 * @throws \yii\base\Exception
 	 */
-	public function actionIndex($message = '', $messageClass = '')
+	public function actionIndex()
 	{
 		$model = $this->getModel();
 		$dataProvider = $this->getDataProvider($model);
 		
-		return $this->render(
-			'index.php',
-			['dataProvider' => $dataProvider, 'message' => $message, 'messageClass' => $messageClass ? : 'alert-info']
-		);
+		return $this->render('index.php', ['dataProvider' => $dataProvider]);
 	}
 
 	/**
@@ -68,7 +74,7 @@ class BaseAdminController extends BaseController {
 	public function actionView($id)
 	{
 		$model = $this->getModel($id);
-		return $this->render('view', ['model' => $model]);
+		return $this->render('view', ['model' => $model, 'dataProvider' => $this->getDataProvider($model)]);
 	}
 
 	/**
@@ -82,15 +88,26 @@ class BaseAdminController extends BaseController {
 		
 		try {
 			$model->delete();
-			$message = 'deleted ' . $id;
-			$messageClass = 'alert-success';
+			$this->message = 'deleted ' . $id;
+			$this->messageClass = 'alert-success';
 		} catch (\Exception $e) {
-		    $message = 'not deleted ' . $id;
-			$messageClass = 'alert-error';
+		    $this->message = 'not deleted ' . $id;
+			$this->messageClass = 'alert-error';
 		}
 
 		$modelName = \Yii::$app->helpers->shortClassName($model);
-		return $this->redirect(['index', 'message' => $message, 'model' => $modelName, 'messageClass' => $messageClass]);
+		return $this->redirect(['index', 'model' => $modelName]);
+	}
+
+	/**
+	 * Возвращает название модели
+	 * @return string|null
+	 */
+	public function getModelName()
+	{
+		$result = \Yii::$app->request->get('model');
+		if (empty($result)) return null;
+		return $result;
 	}
 	
 	
@@ -109,7 +126,7 @@ class BaseAdminController extends BaseController {
 		if ($model->load($values) && $model->save()) {
 			return $this->redirect(['view', 'id' => $model->id, 'model' => $modelName]);
 		} else {
-			return $this->render('form', ['model' => $model]);
+			return $this->render('form', ['model' => $model, 'dataProvider' => $this->getDataProvider($model)]);
 		}
 	}
 }

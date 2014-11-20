@@ -6,3 +6,6 @@
 <?= \app\ncmscore\widgets\DetailView::widget([
 	'model' => $model
 ]); ?>
+
+<?// TODO: Перенести в layout ?>
+<?= isset($dataProvider) ? $this->render('index', ['dataProvider' => $dataProvider]) : '' ?>
