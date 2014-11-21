@@ -7,6 +7,7 @@
 
 namespace app\ncmscore\controllers;
 
+use app\ncmscore\core\Helpers;
 use app\ncmscore\models\ActiveModel;
 
 /**
@@ -24,7 +25,12 @@ class BaseAdminController extends BaseController {
 	 */
 	public $messageClass = 'alert-info';
 
-//	public $layout = '';
+	/**
+	 * @var string шаблон
+	 */
+	public $layout = 'admin';
+	
+	
 
 	/**
 	 * Отображение списка элементов
@@ -105,9 +111,7 @@ class BaseAdminController extends BaseController {
 	 */
 	public function getModelName()
 	{
-		$result = \Yii::$app->request->get('model');
-		if (empty($result)) return null;
-		return $result;
+		return Helpers::getAdminModelName();
 	}
 	
 	

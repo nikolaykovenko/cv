@@ -71,4 +71,15 @@ class Helpers extends Component {
 		
 		return $className;
 	}
+
+	/**
+	 * Возвращает название главной модели для админки
+	 * @return string|null
+	 */
+	public static function getAdminModelName()
+	{
+		$result = \Yii::$app->request->get('model');
+		if (empty($result)) return null;
+		return $result;
+	}
 }
