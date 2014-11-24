@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "parameter_values".
+ * Значения параметров
  *
  * @property integer $id
  * @property integer $external_parent

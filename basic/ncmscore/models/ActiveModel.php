@@ -25,7 +25,10 @@ class ActiveModel extends ActiveRecord {
 	 * 
 	 * @var array
 	 */
-	protected $hiddenFields = [];
+	protected $hiddenFields = [
+		'skills_matrix',
+		'id' => ['update', 'create'],
+	];
 
 	/**
 	 * @var bool флаг отображения кнопки редактирования элемента

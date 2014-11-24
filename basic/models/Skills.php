@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "skills".
+ * Таблица скилов
  *
  * @property integer $id
  * @property integer $external_parent

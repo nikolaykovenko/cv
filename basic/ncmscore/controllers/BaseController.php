@@ -42,7 +42,7 @@ abstract class BaseController extends Controller {
 			if (empty($modelName)) throw new Exception('empty model param');
 
 			$fullModelName = 'app\models\\'.ucfirst(strtolower($modelName));
-			if (!class_exists($fullModelName)) throw new Exception('model ' . $fullModelName . 'not exists');
+			if (!class_exists($fullModelName)) throw new Exception('Model ' . $fullModelName . ' is not exists');
 
 			$this->model = new $fullModelName;
 			if (!is_null($itemId)) {

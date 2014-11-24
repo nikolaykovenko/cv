@@ -17,13 +17,6 @@ use Yii;
  */
 class Categories extends \app\ncmscore\models\ActiveModel
 {
-	
-//	TODO: забрати прив'язку до сценарція і додати до newitem
-	protected $hiddenFields = [
-		'skills_matrix',
-		'id' => ['update', 'create'],
-	];
-	
     /**
      * @inheritdoc
      */

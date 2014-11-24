@@ -9,7 +9,7 @@
 	<div class="container">
 		<div class="col-sm-3 col-lg-2">
 			<h2 class="h3">NCMS</h2>
-			main nav
+			<?= $this->render('@ncms-core-views/admin/main-nav', ['nav' => \Yii::$app->params['adminNav']]); ?>
 		</div>
 		<div class="col-sm-9 col-lg-10">
 			<?= $content ?>
