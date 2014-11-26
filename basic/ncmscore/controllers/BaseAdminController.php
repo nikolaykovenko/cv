@@ -9,6 +9,7 @@ namespace app\ncmscore\controllers;
 
 use app\ncmscore\core\Helpers;
 use app\ncmscore\models\ActiveModel;
+use Yii;
 
 /**
  * Базовый класс админки
@@ -30,6 +31,18 @@ class BaseAdminController extends BaseController {
 	 */
 	public $layout = 'admin';
 	
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function init()
+	{
+		parent::init();
+		
+//		TODO: Вынести в конфиг после создания отдельного приложения для админки
+		Yii::$app->set('urlManager', 'app\ncmscore\core\admin\UrlManager');
+	}
 	
 
 	/**

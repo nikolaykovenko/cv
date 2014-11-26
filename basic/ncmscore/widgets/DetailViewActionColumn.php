@@ -33,15 +33,4 @@ class DetailViewActionColumn extends ActionColumn {
 	{
 		return $this->renderFilterCellContent();
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function createUrl($action, $model, $key, $index)
-	{
-		$params = is_array($key) ? $key : ['id' => (string) $key];
-		$params['model'] = \Yii::$app->helpers->shortClassName($model);
-		
-		return parent::createUrl($action, $model, $params, $index);
-	}
 }

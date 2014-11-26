@@ -55,15 +55,9 @@ class GridView extends \yii\grid\GridView {
 	{
 		if (!$model->updateButton and !$model->deleteButton and !$model->viewButton) return null;
 		
-		$className = \Yii::$app->helpers->shortClassName($model);
-
 		return [
 			'class' => 'yii\grid\ActionColumn',
 			'template' => ($model->viewButton ? '{view} ' : '') . ($model->updateButton ? '{update} ' : '') . ($model->deleteButton ? '{delete}' : ''),
-			'urlCreator' => function($action, $model, $key, $index) use ($className) {
-				$actionColumn = new ActionColumn();
-				return $actionColumn->createUrl($action, $model, $key, $index).'&model=' . $className;
-			}
 		];
 	}
 }

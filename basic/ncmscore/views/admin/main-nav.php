@@ -2,7 +2,7 @@
 /** @var $this \yii\web\View */
 /** @var array $nav */
 
-use app\ncmscore\helpers\admin\Url;
+use \yii\helpers\Url;
 ?>
 <nav>
 	<ul class="nav nav-pills nav-stacked">

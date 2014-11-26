@@ -3,7 +3,7 @@
 /** @var \yii\data\BaseDataProvider $dataProvider */
 
 use \yii\helpers\Html;
-use \app\ncmscore\helpers\admin\Url;
+use \yii\helpers\Url;
 ?>
 
 <div class="text-right">
