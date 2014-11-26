@@ -19,6 +19,15 @@ use Yii;
  */
 class ParameterValues extends \app\ncmscore\models\ActiveModel
 {
+	/**
+	 * @inheritdoc
+	 */
+	protected $fieldTypes = [
+		'in_new_column' => 'boolean',
+		'rate' => 'integer',
+		'value' => 'longhtml',
+	];
+	
     /**
      * @inheritdoc
      */
@@ -33,8 +42,9 @@ class ParameterValues extends \app\ncmscore\models\ActiveModel
     public function rules()
     {
         return [
-            [['external_parent', 'caption', 'value'], 'required'],
-            [['external_parent', 'rate', 'in_new_column'], 'integer'],
+            [['external_parent', 'caption', 'value', 'in_new_column'], 'required'],
+            [['external_parent', 'rate'], 'integer'],
+            ['in_new_column', 'boolean'],
             [['caption', 'value'], 'string', 'max' => 255]
         ];
     }

@@ -31,6 +31,18 @@ class ActiveModel extends ActiveRecord {
 	];
 
 	/**
+	 * Массив типов полей. Нестандартные форматы:
+	 * relation - связь
+	 * longhtml - большое html наполнение (tinymce)
+	 * Значение по умолчанию - html
+	 * 
+	 * @var array
+	 */
+	protected $fieldTypes = [
+		'rate' => 'integer'
+	];
+
+	/**
 	 * @var bool флаг отображения кнопки редактирования элемента
 	 */
 	protected $updateButton = true;
@@ -79,6 +91,16 @@ class ActiveModel extends ActiveRecord {
 	public function getViewButton()
 	{
 		return $this->viewButton;
+	}
+
+	/**
+	 * Возвращает массив типов полей
+	 * @return array
+	 */
+	public function getFieldTypes()
+	{
+		if (!is_array($this->fieldTypes)) return [];
+		return $this->fieldTypes;
 	}
 	
 }

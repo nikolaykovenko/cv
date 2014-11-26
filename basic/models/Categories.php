@@ -17,6 +17,14 @@ use Yii;
  */
 class Categories extends \app\ncmscore\models\ActiveModel
 {
+	/**
+	 * @inheritdoc
+	 */
+	protected $fieldTypes = [
+		'skills_matrix' => 'boolean',
+		'rate' => 'integer',
+	];
+	
     /**
      * @inheritdoc
      */

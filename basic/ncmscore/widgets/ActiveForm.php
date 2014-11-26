@@ -7,8 +7,10 @@
 
 namespace app\ncmscore\widgets;
 
+use app\ncmscore\core\ModelColumnsExploder;
 use app\ncmscore\models\ActiveModel;
 use yii\base\Exception;
+use yii\db\ActiveQuery;
 use yii\helpers\Html;
 
 /**
@@ -70,9 +72,12 @@ class ActiveForm extends \yii\widgets\ActiveForm {
 		$helpers = \Yii::$app->helpers;
 		$result = '';
 		
+		$attributes = ModelColumnsExploder::getAttributes($this->model);
 		foreach ($this->model->attributes as $attr => $value) {
 			if ($helpers->isFieldVisible($attr, $this->model)) {
-				$result .= $this->field($this->model, $attr);
+				$attrItem = $attributes[$attr];
+				
+				$result .= $this->makeField($attr, $attrItem);
 			}
 		}
 		
@@ -80,6 +85,51 @@ class ActiveForm extends \yii\widgets\ActiveForm {
 			$result .= '<div class="form-group">' .
 				Html::submitButton($this->model->isNewRecord ? 'Создать' : 'Обновить', ['class' => $this->model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) .
 				'</div>';
+		}
+		
+		return $result;
+	}
+	
+	
+
+	/**
+	 * Генерирует activeField нужного типа
+	 * @param string $attr
+	 * @param array $attrItem
+	 * @return \yii\widgets\ActiveField
+	 */
+	private function makeField($attr, $attrItem)
+	{
+		$result = $this->field($this->model, $attr);
+		
+		switch ($attrItem['type']) {
+			case 'boolean':
+				$result->checkbox();
+				break;
+			
+			case 'integer':
+				$result->input('number');
+				break;
+			
+			case 'email':
+				$result->input($attrItem['type']);
+				break;
+
+			case 'relation':
+				$getterName = ModelColumnsExploder::getterAttributeMethodName($attr);
+				
+				/** @var ActiveQuery $query */
+				$className = $this->model->$getterName()->modelClass;
+				/** @var ActiveModel $obj */
+				$model = new $className();
+
+				$dropDown = $model::find()->select('caption')->indexBy('id')->column();
+				$result->dropDownList($dropDown);
+				break;
+			
+			case 'longhtml':
+				$result->textarea();
+				break;
 		}
 		
 		return $result;

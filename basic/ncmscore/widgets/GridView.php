@@ -9,6 +9,7 @@ namespace app\ncmscore\widgets;
 
 use app\ncmscore\models\ActiveModel;
 use yii\grid\ActionColumn;
+use app\ncmscore\core\ModelColumnsExploder;
 
 /**
  * Адаптированный GridView
@@ -20,10 +21,15 @@ class GridView extends \yii\grid\GridView {
 	 */
 	protected function guessColumns()
 	{
-		parent::guessColumns();
-		
 		$models = $this->dataProvider->getModels();
 		$model = reset($models);
+		
+		if ($model instanceof ActiveModel) {
+			$this->columns = ModelColumnsExploder::getViewAttributes($model);
+			
+		} else {
+			parent::guessColumns();
+		}
 		
 		/** @var \app\ncmscore\core\Helpers $helpers */
 		$helpers = \Yii::$app->helpers;

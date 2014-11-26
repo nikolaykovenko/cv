@@ -8,6 +8,8 @@
 namespace app\ncmscore\widgets;
 
 use app\ncmscore\core\Helpers;
+use app\ncmscore\core\ModelColumnsExploder;
+use app\ncmscore\models\ActiveModel;
 
 /**
  * Класс для детального просмотра элемента
@@ -18,6 +20,14 @@ class DetailView extends \yii\widgets\DetailView {
 	 * @inheritdoc
 	 */
 	protected function normalizeAttributes() {
+		if (is_null($this->attributes) and $this->model instanceof ActiveModel) {
+			if (!is_array($this->attributes)) {
+				$this->attributes = [];
+			}
+			
+			$this->attributes = array_merge($this->attributes, ModelColumnsExploder::getViewAttributes($this->model));
+		}
+		
 		parent::normalizeAttributes();
 		
 		/** @var Helpers $helpers */
@@ -30,9 +40,6 @@ class DetailView extends \yii\widgets\DetailView {
 		}
 		
 		if ($this->model->updateButton or $this->model->deleteButton) {
-			
-			$className = 'ff';
-			
 			$actionColumn = new DetailViewActionColumn();
 			$actionColumn->template = ($this->model->updateButton ? '{update} ' : '') . ($this->model->deleteButton ? '{delete}' : '');
 			
