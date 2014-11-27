@@ -77,6 +77,6 @@ class ParameterValues extends \app\ncmscore\models\ActiveModel
      */
     public function getSkills()
     {
-        return $this->hasMany(Skills::className(), ['external_parent' => 'id']);
+        return $this->hasMany(Skills::className(), ['external_parent' => 'id'])->orderBy('rate desc');
     }
 }

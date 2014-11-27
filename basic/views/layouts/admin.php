@@ -1,6 +1,8 @@
 <?php
 /* @var $this \yii\web\View */
 /* @var $content string */
+
+$this->registerCssFile('/css/site.css');
 ?>
 
 <? $this->beginContent('@app/views/layouts/base.php'); ?>
