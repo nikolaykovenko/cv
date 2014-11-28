@@ -59,6 +59,6 @@ class Skills extends \app\ncmscore\models\ActiveModel
      */
     public function getExternalParent()
     {
-        return $this->hasOne(ParameterValues::className(), ['id' => 'external_parent'])->orderBy('rate desc');
+        return $this->hasOne(ParameterValues::className(), ['id' => 'external_parent']);
     }
 }

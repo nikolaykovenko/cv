@@ -7,6 +7,7 @@
 
 namespace app\ncmscore\models;
 
+use app\ncmscore\models\scopes\Scope;
 use yii\db\ActiveRecord;
 
 /**
@@ -103,4 +104,12 @@ class ActiveModel extends ActiveRecord {
 		return $this->fieldTypes;
 	}
 	
+	
+	/**
+	 * @inheritdoc
+	 */
+	public static function find()
+	{
+		return parent::find()->orderBy('rate desc');
+	}
 }

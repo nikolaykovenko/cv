@@ -65,6 +65,6 @@ class Categories extends \app\ncmscore\models\ActiveModel
      */
     public function getParameterValues()
     {
-        return $this->hasMany(ParameterValues::className(), ['external_parent' => 'id'])->orderBy('rate desc');
+        return $this->hasMany(ParameterValues::className(), ['external_parent' => 'id']);
     }
 }
