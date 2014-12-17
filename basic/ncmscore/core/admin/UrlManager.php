@@ -19,7 +19,7 @@ class UrlManager extends \yii\web\UrlManager {
 	{
 		$params = (array) $params;
 
-		$modelName = \Yii::$app->controller->modelName;
+		$modelName = \Yii::$app->controller->getModelName();
 		if (!array_key_exists('model', $params) and !empty($modelName)) {
 			$params['model'] = $modelName;
 		}

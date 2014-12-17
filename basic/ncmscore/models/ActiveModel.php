@@ -40,7 +40,8 @@ class ActiveModel extends ActiveRecord {
 	 * @var array
 	 */
 	protected $fieldTypes = [
-		'rate' => 'integer'
+		'rate' => 'integer',
+		'id' => 'integer',
 	];
 
 	/**

@@ -23,6 +23,7 @@ class Categories extends \app\ncmscore\models\ActiveModel
 	protected $fieldTypes = [
 		'skills_matrix' => 'boolean',
 		'rate' => 'integer',
+        'id' => 'integer',
 	];
 	
     /**

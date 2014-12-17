@@ -35,9 +35,9 @@ class ModelColumnsExploder extends Component {
 	public static function getAttributes(ActiveModel $model)
 	{
 		$result = [];
-		$fieldTypes = $model->fieldTypes;
+		$fieldTypes = $model->getFieldTypes();
 		
-		foreach ($model->attributes as $attr => $value) {
+		foreach ($model->getAttributes() as $attr => $value) {
 //			TODO: Перенести сюда проверку отображения поля
 
 			$item = ['type' => 'html'];
