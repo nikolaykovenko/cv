@@ -4,21 +4,22 @@
 
 use \yii\helpers\Html;
 use \yii\helpers\Url;
+
 ?>
 
-<div class="text-right">
-	<?= Html::a('Добавить', Url::to(['admin/create']), ['class' => 'btn btn-primary']); ?>
-</div>
+    <div class="text-right">
+        <?= Html::a('Добавить', Url::to(['admin/create']), ['class' => 'btn btn-primary']); ?>
+    </div>
 
 <?php if (!empty($this->context->message)): ?>
-	<?= \yii\bootstrap\Alert::widget([
-		'body' => $this->context->message,
-		'options' => [
-			'class' => $this->context->messageClass
-		]
-	]); ?>
-<?php endif; ?>
+    <?= \yii\bootstrap\Alert::widget([
+        'body' => $this->context->message,
+        'options' => [
+            'class' => $this->context->messageClass
+        ]
+    ]); ?>
+<?php endif ?>
 
 <?= \app\ncmscore\widgets\GridView::widget([
-	'dataProvider' => $dataProvider
-]); ?>
+    'dataProvider' => $dataProvider
+]);

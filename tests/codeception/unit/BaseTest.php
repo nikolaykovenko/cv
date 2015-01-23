@@ -11,10 +11,10 @@ class BaseTest extends yii\codeception\TestCase
      */
     protected $tester;
 
-	/**
-	 * @var \yii\db\Transaction
-	 */
-	protected $transaction;
+    /**
+     * @var \yii\db\Transaction
+     */
+    protected $transaction;
 
     protected function _before()
     {
@@ -38,13 +38,13 @@ class BaseTest extends yii\codeception\TestCase
     }
 
 
-	/**
-	 * Category testing
-	 */
+    /**
+     * Category testing
+     */
     public function testCategories()
     {
 //        $category = new Stub('Categories');
-        
+
         /*
 		$item = Categories::findOne(['caption' => 'Personal data']);
 		$this->assertEquals($item->caption, 'Personal data');

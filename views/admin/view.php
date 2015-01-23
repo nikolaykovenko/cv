@@ -4,8 +4,8 @@
 ?>
 
 <?= \app\ncmscore\widgets\DetailView::widget([
-	'model' => $model
+    'model' => $model
 ]); ?>
 
-<?// TODO: Перенести в layout ?>
-<?= isset($dataProvider) ? $this->render('index', ['dataProvider' => $dataProvider]) : '' ?>
+<?php // TODO: Перенести в layout ?>
+<?= isset($dataProvider) ? $this->render('index', ['dataProvider' => $dataProvider]) : '';

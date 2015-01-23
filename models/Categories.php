@@ -17,15 +17,15 @@ use Yii;
  */
 class Categories extends \app\ncmscore\models\ActiveModel
 {
-	/**
-	 * @inheritdoc
-	 */
-	protected $fieldTypes = [
-		'skills_matrix' => 'boolean',
-		'rate' => 'integer',
+    /**
+     * @inheritdoc
+     */
+    protected $fieldTypes = [
+        'skills_matrix' => 'boolean',
+        'rate' => 'integer',
         'id' => 'integer',
-	];
-	
+    ];
+
     /**
      * @inheritdoc
      */
@@ -47,7 +47,7 @@ class Categories extends \app\ncmscore\models\ActiveModel
         ];
     }
 
-	/**
+    /**
      * @inheritdoc
      */
     public function attributeLabels()

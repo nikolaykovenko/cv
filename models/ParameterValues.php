@@ -19,15 +19,15 @@ use Yii;
  */
 class ParameterValues extends \app\ncmscore\models\ActiveModel
 {
-	/**
-	 * @inheritdoc
-	 */
-	protected $fieldTypes = [
-		'in_new_column' => 'boolean',
-		'rate' => 'integer',
-		'value' => 'longhtml',
-	];
-	
+    /**
+     * @inheritdoc
+     */
+    protected $fieldTypes = [
+        'in_new_column' => 'boolean',
+        'rate' => 'integer',
+        'value' => 'longhtml',
+    ];
+
     /**
      * @inheritdoc
      */

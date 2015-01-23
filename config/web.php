@@ -37,16 +37,16 @@ $config = [
                 ],
             ],
         ],
-		'helpers' => [
-			'class' => 'app\ncmscore\core\Helpers',
-		],
+        'helpers' => [
+            'class' => 'app\ncmscore\core\Helpers',
+        ],
         'db' => require(__DIR__ . '/db.php'),
     ],
     'params' => $params,
-	'aliases' => [
-		'@ncms-core' => '@app/ncmscore',
-		'@ncms-core-views' => '@ncms-core/views',
-	]
+    'aliases' => [
+        '@ncms-core' => '@app/ncmscore',
+        '@ncms-core-views' => '@ncms-core/views',
+    ]
 ];
 
 if (YII_ENV_DEV) {

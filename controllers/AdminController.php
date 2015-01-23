@@ -12,6 +12,7 @@ use app\ncmscore\controllers\BaseAdminController;
 /**
  * Дефолтный контроллер для админки
  */
-class AdminController extends BaseAdminController {
+class AdminController extends BaseAdminController
+{
 
 }

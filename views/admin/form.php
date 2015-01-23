@@ -5,11 +5,11 @@ use \app\ncmscore\widgets\ActiveForm;
 /** @var \yii\web\View $this */
 ?>
 
-<div class="form">
-	<?php ActiveForm::begin(['model' => $model]); ?>
-	
-	<?php ActiveForm::end(); ?>
-</div>
+    <div class="form">
+        <?php ActiveForm::begin(['model' => $model]); ?>
 
-<?// TODO: Перенести в layout ?>
-<?= isset($dataProvider) ? $this->render('index', ['dataProvider' => $dataProvider]) : '' ?>
+        <?php ActiveForm::end(); ?>
+    </div>
+
+<?php // TODO: Перенести в layout ?>
+<?= isset($dataProvider) ? $this->render('index', ['dataProvider' => $dataProvider]) : '';

@@ -14,136 +14,138 @@ use Yii;
 /**
  * Базовый класс админки
  */
-class BaseAdminController extends BaseController {
+class BaseAdminController extends BaseController
+{
 
-	/**
-	 * @var string сообщение для вывода
-	 */
-	public $message = '';
+    /**
+     * @var string сообщение для вывода
+     */
+    public $message = '';
 
-	/**
-	 * @var string класс алерта сообщения
-	 */
-	public $messageClass = 'alert-info';
+    /**
+     * @var string класс алерта сообщения
+     */
+    public $messageClass = 'alert-info';
 
-	/**
-	 * @var string шаблон
-	 */
-	public $layout = 'admin';
-	
+    /**
+     * @var string шаблон
+     */
+    public $layout = 'admin';
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function init()
-	{
-		parent::init();
-		
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+
 //		TODO: Вынести в конфиг после создания отдельного приложения для админки
-		Yii::$app->set('urlManager', 'app\ncmscore\core\admin\UrlManager');
-	}
-	
-
-	/**
-	 * Отображение списка элементов
-	 * @return string
-	 * @throws \yii\base\Exception
-	 */
-	public function actionIndex()
-	{
-		$model = $this->getModel();
-		$dataProvider = $this->getDataProvider($model);
-		
-		return $this->render('index.php', ['dataProvider' => $dataProvider]);
-	}
-
-	/**
-	 * Обновление элемента
-	 * @param int $id
-	 * @return string|\yii\web\Response
-	 * @throws \yii\base\Exception
-	 * @throws \yii\web\NotFoundHttpException
-	 */
-	public function actionUpdate($id)
-	{
-		$model = $this->getModel($id);
-		return $this->saveModel($model, \Yii::$app->request->post());
-	}
-
-	/**
-	 * Создание элемента
-	 * @return string|\yii\web\Response
-	 * @throws \yii\base\Exception
-	 * @throws \yii\web\NotFoundHttpException
-	 */
-	public function actionCreate()
-	{
-		$model = $this->getModel();
-		return $this->saveModel($model, \Yii::$app->request->post());
-	}
-
-	/**
-	 * Просмотр элемента
-	 * @param int $id
-	 * @return string|\yii\web\Response
-	 * @throws \yii\base\Exception
-	 * @throws \yii\web\NotFoundHttpException
-	 */
-	public function actionView($id)
-	{
-		$model = $this->getModel($id);
-		return $this->render('view', ['model' => $model, 'dataProvider' => $this->getDataProvider($model)]);
-	}
-
-	/**
-	 * Удаляет элемент
-	 * @param $id
-	 * @return \yii\web\Response
-	 */
-	public function actionDelete($id)
-	{
-		$model = $this->getModel($id);
-		
-		try {
-			$model->delete();
-			$this->message = 'deleted ' . $id;
-			$this->messageClass = 'alert-success';
-		} catch (\Exception $e) {
-		    $this->message = 'not deleted ' . $id;
-			$this->messageClass = 'alert-error';
-		}
-
-		$modelName = \Yii::$app->helpers->shortClassName($model);
-		return $this->redirect(['index', 'model' => $modelName]);
-	}
-
-	/**
-	 * Возвращает название модели
-	 * @return string|null
-	 */
-	public function getModelName()
-	{
-		return Helpers::getAdminModelName();
-	}
-	
-	
+        Yii::$app->set('urlManager', 'app\ncmscore\core\admin\UrlManager');
+    }
 
 
-	/**
-	 * Сохраняет модель с переданными значениями и проводит редирект на страницу просмотра или рендерит форму заново
-	 * @param ActiveModel $model модель
-	 * @param array $values новые значения
-	 * @return string|\yii\web\Response
-	 */
-	private function saveModel(ActiveModel $model, array $values)
-	{
-		$modelName = \Yii::$app->helpers->shortClassName($model);
-		
-		if ($model->load($values) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id, 'model' => $modelName]);
-		} else {
-			return $this->render('form', ['model' => $model, 'dataProvider' => $this->getDataProvider($model)]);
-		}
-	}
+    /**
+     * Отображение списка элементов
+     * @return string
+     * @throws \yii\base\Exception
+     */
+    public function actionIndex()
+    {
+        $model = $this->getModel();
+        $dataProvider = $this->getDataProvider($model);
+
+        return $this->render('index.php', ['dataProvider' => $dataProvider]);
+    }
+
+    /**
+     * Обновление элемента
+     * @param int $id
+     * @return string|\yii\web\Response
+     * @throws \yii\base\Exception
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->getModel($id);
+
+        return $this->saveModel($model, \Yii::$app->request->post());
+    }
+
+    /**
+     * Создание элемента
+     * @return string|\yii\web\Response
+     * @throws \yii\base\Exception
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionCreate()
+    {
+        $model = $this->getModel();
+
+        return $this->saveModel($model, \Yii::$app->request->post());
+    }
+
+    /**
+     * Просмотр элемента
+     * @param int $id
+     * @return string|\yii\web\Response
+     * @throws \yii\base\Exception
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionView($id)
+    {
+        $model = $this->getModel($id);
+
+        return $this->render('view', ['model' => $model, 'dataProvider' => $this->getDataProvider($model)]);
+    }
+
+    /**
+     * Удаляет элемент
+     * @param $id
+     * @return \yii\web\Response
+     */
+    public function actionDelete($id)
+    {
+        $model = $this->getModel($id);
+
+        try {
+            $model->delete();
+            $this->message = 'deleted ' . $id;
+            $this->messageClass = 'alert-success';
+        } catch (\Exception $e) {
+            $this->message = 'not deleted ' . $id;
+            $this->messageClass = 'alert-error';
+        }
+
+        $modelName = \Yii::$app->helpers->shortClassName($model);
+
+        return $this->redirect(['index', 'model' => $modelName]);
+    }
+
+    /**
+     * Возвращает название модели
+     * @return string|null
+     */
+    public function getModelName()
+    {
+        return Helpers::getAdminModelName();
+    }
+
+
+    /**
+     * Сохраняет модель с переданными значениями и проводит редирект на страницу просмотра или рендерит форму заново
+     * @param ActiveModel $model модель
+     * @param array $values новые значения
+     * @return string|\yii\web\Response
+     */
+    private function saveModel(ActiveModel $model, array $values)
+    {
+        $modelName = \Yii::$app->helpers->shortClassName($model);
+
+        if ($model->load($values) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id, 'model' => $modelName]);
+        } else {
+            return $this->render('form', ['model' => $model, 'dataProvider' => $this->getDataProvider($model)]);
+        }
+    }
 }
