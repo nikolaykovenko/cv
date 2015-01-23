@@ -1,0 +1,56 @@
+build_settings:
+    ignore:
+        - "vendor"
+        - "tests"
+        - "views"
+
+setup:
+    composer:
+        action: "install"
+    shell:
+        - "cd %PHPCI_BUILD_PATH%/tests && ../vendor/codeception/codeception/codecept build"
+        - "cd %PHPCI_BUILD_PATH%/tests/codeception && sed 's|url:.*|url: http:\/\/ci-release.wedes.net\/|g' acceptance.suite.yml > .temp && mv .temp acceptance.suite.yml"
+        - "cd %PHPCI_BUILD_PATH%/tests/codeception/config && sed \"s|dbname=\([^']*\)|dbname=cv_tests|g\" config.php > .temp && mv .temp config.php"
+
+        - "cd %PHPCI_BUILD_PATH%/config && sed \"s|dbname=\([^']*\)|dbname=\1_tests|g\" db.php > .temp && mv .temp db.php"
+        - "cd %PHPCI_BUILD_PATH%/config && sed \"s|username' \{0,\}=> '[^']*'\{0,\}|username' => 'u_ci'|g\" db.php > .temp && mv .temp db.php"
+        - "cd %PHPCI_BUILD_PATH%/config && sed \"s|password' \{0,\}=> '[^']*'\{0,\}|password' => 'ci-password'|g\" db.php > .temp && mv .temp db.php"
+
+        - "cd ~/www/ci-release.wedes.net &&  ln -s %BUILD%/web release"
+
+    copy_build:
+        directory: www/ci-release.wedes.net
+        wipe: true
+
+test:
+    php_mess_detector:
+        allowed_warnings: 15
+        rules: 
+            - "/config/ruleset.xml"
+            - "codesize"
+            - "unusedcode"
+            - "design"
+            - "controversial"
+
+    php_code_sniffer:
+        standard: "PSR2"
+        allowed_warnings: 15
+        encoding: "utf-8"
+
+    php_cpd:
+        allow_failures: false
+
+    php_docblock_checker:
+        allowed_warnings: false
+
+    php_loc:
+
+    codeception:
+        config: "/tests/codeception.yml"
+
+
+
+
+complete:
+    shell:
+        - "cd ~/www/ci-release.wedes.net && rm -r -f release && rm -r -f %BUILD%"
