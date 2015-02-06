@@ -5,13 +5,13 @@ return [
     'pageSize' => 10,
     'adminNav' => [
         'Базовые настройки' => [
-            'settings' => 'Настройки',
-            'translations' => 'Переводы',
+            'Settings' => 'Настройки',
+            'Translations' => 'Переводы',
         ],
         'Базовые модули' => [
-            'categories' => 'Категории',
-            'parametervalues' => 'Значения',
-            'skills' => 'Таблица скилов',
+            'Categories' => 'Категории',
+            'ParameterValues' => 'Значения',
+            'Skills' => 'Таблица скилов',
         ],
     ],
 ];
