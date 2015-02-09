@@ -12,7 +12,8 @@ namespace app\ncmscore\core\admin;
  * Класс для форматирования данных определенного формата для админки
  * @package app\ncmscore\core\admin
  */
-class Formatter extends \yii\i18n\Formatter {
+class Formatter extends \yii\i18n\Formatter
+{
 
     /**
      * Форматирование поля пароля

@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+
 use app\ncmscore\models\ActiveModel;
 
 /**
@@ -170,8 +171,6 @@ class User extends ActiveModel implements \yii\web\IdentityInterface
             $this->password_hash_repeat = $this->password_hash;
         }
         
-        return parent::insert($runValidation, $attributes); 
+        return parent::insert($runValidation, $attributes);
     }
-
-
 }
