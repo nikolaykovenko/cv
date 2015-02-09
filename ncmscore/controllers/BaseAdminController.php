@@ -9,6 +9,7 @@ namespace app\ncmscore\controllers;
 
 use app\ncmscore\core\Helpers;
 use app\ncmscore\models\ActiveModel;
+use SebastianBergmann\Exporter\Exception;
 use Yii;
 
 /**
@@ -42,6 +43,7 @@ class BaseAdminController extends BaseController
 
 //		TODO: Вынести в конфиг после создания отдельного приложения для админки
         Yii::$app->set('urlManager', 'app\ncmscore\core\admin\UrlManager');
+        Yii::$app->set('formatter', 'app\ncmscore\core\admin\Formatter');
     }
 
 
@@ -68,6 +70,7 @@ class BaseAdminController extends BaseController
     public function actionUpdate($id)
     {
         $model = $this->getModel($id);
+        $this->setAutoScenario($model, 'update');
 
         return $this->saveModel($model, \Yii::$app->request->post());
     }
@@ -81,6 +84,7 @@ class BaseAdminController extends BaseController
     public function actionCreate()
     {
         $model = $this->getModel();
+        $this->setAutoScenario($model, 'create');
 
         return $this->saveModel($model, \Yii::$app->request->post());
     }
@@ -123,6 +127,15 @@ class BaseAdminController extends BaseController
     }
 
     /**
+     * Форма авторизации
+     * @return string
+     */
+    public function actionLogin()
+    {
+        return $this->renderPartial('@ncms-core-views/admin/login');
+    }
+
+    /**
      * Возвращает название модели
      * @return string|null
      */
@@ -147,5 +160,21 @@ class BaseAdminController extends BaseController
         } else {
             return $this->render('form', ['model' => $model, 'dataProvider' => $this->getDataProvider($model)]);
         }
+    }
+
+    /**
+     * Проверяет наличие у модели стандартного сценария, в случае успеха - устанавливает его
+     * @param ActiveModel $model
+     * @param string $scenario
+     * @return bool
+     */
+    private function setAutoScenario(ActiveModel $model, $scenario)
+    {
+        if (array_key_exists($scenario, $model->scenarios())) {
+            $model->scenario = $scenario;
+            return true;
+        }
+        
+        return false;
     }
 }

@@ -63,19 +63,12 @@ class Helpers extends Component
     /**
      * Возвращает краткое название модели
      * @param string|object $class
-     * @param bool $ucFirst флаг преобразования первой буквы в заглавную
      * @return string
      */
-    public function shortClassName($class, $ucFirst = false)
+    public function shortClassName($class)
     {
         $className = new \ReflectionClass($class);
-        $className = strtolower($className->getShortName());
-
-        if ($ucFirst) {
-            $className = ucfirst($class);
-        }
-
-        return $className;
+        return $className->getShortName();
     }
 
     /**
@@ -90,5 +83,21 @@ class Helpers extends Component
         }
 
         return $result;
+    }
+
+    /**
+     * Генерирует хеш пароля
+     * @param string $password
+     * @return string
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function generatePasswordHash($password)
+    {
+        if (empty($password) or !is_string($password)) {
+            return '';
+        }
+        
+        return \Yii::$app->getSecurity()->generatePasswordHash($password);
     }
 }

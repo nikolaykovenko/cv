@@ -37,7 +37,8 @@ class GridView extends \yii\grid\GridView
 
         if ($model instanceof ActiveModel) {
             foreach ($this->columns as $index => $column) {
-                if (!$helpers->isFieldVisible($column, $model, 'list')) {
+                $columnName = explode(':', $column)[0];
+                if (!$helpers->isFieldVisible($columnName, $model, 'list')) {
                     unset($this->columns[$index]);
                 }
             }

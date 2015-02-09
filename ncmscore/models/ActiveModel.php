@@ -30,6 +30,7 @@ class ActiveModel extends ActiveRecord
     protected $hiddenFields = [
         'skills_matrix',
         'id' => ['update', 'create'],
+        'password_hash' => 'list',
     ];
 
     /**

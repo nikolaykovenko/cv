@@ -45,7 +45,6 @@ class BaseTest extends yii\codeception\TestCase
     {
 //        $category = new Stub('Categories');
 
-        /*
 		$item = Categories::findOne(['caption' => 'Personal data']);
 		$this->assertEquals($item->caption, 'Personal data');
 		
@@ -69,6 +68,5 @@ class BaseTest extends yii\codeception\TestCase
         $lastCategory = Categories::find()->orderBy('id desc')->one();
         
         Debug::debug($lastCategory->caption);
-        */
     }
 }

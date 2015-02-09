@@ -32,7 +32,7 @@ class CoreTest extends yii\codeception\TestCase
 
 
         /** Определение краткого названия класса */
-        $this->assertEquals('categories', $helper->shortClassName($model));
+        $this->assertEquals('Categories', $helper->shortClassName($model));
 
 
         /** Получение названия модели из get */
@@ -41,13 +41,13 @@ class CoreTest extends yii\codeception\TestCase
             ->expects($this->once())
             ->method('get')
             ->with('model')
-            ->willReturn('categories');
+            ->willReturn('Categories');
 
 
         $this->assertEmpty($helper->getAdminModelName());
 
         Yii::$app->set('request', $request);
-        $this->assertEquals('categories', $helper->getAdminModelName());
+        $this->assertEquals('Categories', $helper->getAdminModelName());
     }
 
     /**
@@ -93,5 +93,17 @@ class CoreTest extends yii\codeception\TestCase
         $url = $urlManager->createUrl('test');
 
         $this->assertRegExp("/model=categories/", $url);
+    }
+
+    /**
+     * Тестирование генератора хеша паролей
+     */
+    public function testPasswordGenerator()
+    {
+        $helper = new \app\ncmscore\core\Helpers();
+        $this->assertEmpty($helper->generatePasswordHash(''));
+        
+        $password = '123';
+        $this->assertTrue(Yii::$app->getSecurity()->validatePassword($password, '$2y$13$P/gl10LS4aJaMqOOYCKX5uEuDRXUYRLrj1GjebX3Q5VkJKX9QhIpm'));
     }
 }
