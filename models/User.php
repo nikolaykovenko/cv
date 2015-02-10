@@ -136,7 +136,7 @@ class User extends ActiveModel implements \yii\web\IdentityInterface
      */
     public function update($runValidation = true, $attributeNames = null)
     {
-//        TODO: Провести рефакторинг, добавить тесты, function beforeSave
+//        TODO: Провести рефакторинг, function beforeSave
         if (empty($this->password_hash) and empty($this->password_hash_repeat)) {
             $this->password_hash = $this->getOldAttribute('password_hash');
             $this->password_hash_repeat = $this->password_hash;
@@ -153,7 +153,7 @@ class User extends ActiveModel implements \yii\web\IdentityInterface
      */
     public function insert($runValidation = true, $attributes = null)
     {
-//        TODO: Провести рефакторинг, добавить тесты, function beforeSave
+//        TODO: Провести рефакторинг, function beforeSave
         
         if (!empty($this->password_hash) and $this->password_hash == $this->password_hash_repeat) {
             $this->password_hash = \Yii::$app->helpers->generatePasswordHash($this->password_hash);

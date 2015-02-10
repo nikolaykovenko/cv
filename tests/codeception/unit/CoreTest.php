@@ -6,12 +6,27 @@
  */
 
 use \Codeception\Util\Debug;
+use \app\models\User;
 
 /**
  * Тестирование базовых элементов ядра
  */
 class CoreTest extends yii\codeception\TestCase
 {
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->transaction = \Yii::$app->db->beginTransaction();
+    }
+
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+        $this->transaction->rollBack();
+    }
+
 
     /**
      * Тестирование базовых хелперов ядра
@@ -105,5 +120,70 @@ class CoreTest extends yii\codeception\TestCase
         
         $password = '123';
         $this->assertTrue(Yii::$app->getSecurity()->validatePassword($password, '$2y$13$P/gl10LS4aJaMqOOYCKX5uEuDRXUYRLrj1GjebX3Q5VkJKX9QhIpm'));
+    }
+
+    /**
+     * Тестирование авторизации и модели администраторов
+     */
+    public function testUser()
+    {
+//        Поиск и удаление старой учетной записи администратора
+        $user = User::findByUsername('admin');
+        if (!empty($user)) {
+            $deleteResult = $user->delete();
+            
+            $this->assertNotFalse($deleteResult);
+            $this->assertGreaterThan(0, $deleteResult);
+        }
+        
+        $this->assertEmpty(User::findByUsername('admin'));
+        
+        $user = new User();
+        
+//        Добавление новой учетной записи
+        $user->username = 'admin';
+        $user->password_hash = '111';
+        $user->password_hash_repeat = '1112';
+        $this->assertFalse($user->save());
+        
+        $user->password_hash_repeat = '111';
+        $this->assertTrue($user->save());
+        $this->assertNotEmpty($user->id);
+        
+        
+//        Изменение пароля администратора
+        $oldId = $user->id;
+        $oldPass = $user->password_hash;
+        $this->assertNotEquals('111', $oldPass);
+        
+        $user->password_hash = '123';
+        $user->password_hash_repeat = '123';
+        $this->assertTrue($user->save());
+        $this->assertNotEquals('123', $user->password_hash);
+        $this->assertNotEquals($oldPass, $user->password_hash);
+        $this->assertEquals($oldId, $user->id);
+        
+        
+//        Тестирование аутентификации
+        $auth = [
+            'username' => 'admin',
+            'password' => '1234',
+        ];
+        
+        $loginForm = new \app\ncmscore\models\LoginForm();
+        $loginForm->setUserModel(new User());
+        
+        $loginForm->attributes = $auth;
+        $this->assertFalse($loginForm->login());
+        
+        $loginForm->password = '123';
+        $this->assertTrue($loginForm->login());
+        
+        
+//        Тестирование логаута
+        $LoggedUserId = Yii::$app->user->getId();
+        $this->assertGreaterThan(0, $LoggedUserId);
+        Yii::$app->user->logout();
+        $this->assertNull(Yii::$app->user->getId());
     }
 }
