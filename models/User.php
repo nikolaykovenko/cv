@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\ncmscore\models\ActiveModel;
+use yii\db\ActiveRecord;
 
 /**
  * Модель администратора
@@ -32,7 +33,7 @@ class User extends ActiveModel implements \yii\web\IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return static::findOne($id);
     }
 
     /**
@@ -40,29 +41,6 @@ class User extends ActiveModel implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
         return null;
     }
 
@@ -79,7 +57,7 @@ class User extends ActiveModel implements \yii\web\IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->authKey;
+        return null;
     }
 
     /**
@@ -87,18 +65,7 @@ class User extends ActiveModel implements \yii\web\IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+        return false;
     }
 
     /**
@@ -114,6 +81,7 @@ class User extends ActiveModel implements \yii\web\IdentityInterface
      */
     public function rules()
     {
+//        TODO: Добавить тесты валидации модели
         return [
             [['username', 'password_hash', 'password_hash_repeat'], 'required'],
             [['username', 'password_hash', 'password_hash_repeat'], 'string', 'max' => 255],
@@ -143,11 +111,32 @@ class User extends ActiveModel implements \yii\web\IdentityInterface
     }
 
     /**
+     * Поиск пользователя по имени
+     * @param string $username
+     * @return ActiveRecord|null
+     */
+    public static function findByUsername($username)
+    {
+        return static::findOne(['username' => $username]);
+    }
+
+    /**
+     * Проверяет введенный пароль с текущим паролем пользователя
+     * @param string $password
+     * @return bool
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function validatePassword($password)
+    {
+        return \Yii::$app->security->validatePassword($password, $this->password_hash);
+    }
+
+    /**
      * @inheritdoc
      */
     public function update($runValidation = true, $attributeNames = null)
     {
-//        TODO: Провести рефакторинг, добавить тесты
+//        TODO: Провести рефакторинг, добавить тесты, function beforeSave
         if (empty($this->password_hash) and empty($this->password_hash_repeat)) {
             $this->password_hash = $this->getOldAttribute('password_hash');
             $this->password_hash_repeat = $this->password_hash;
@@ -164,7 +153,7 @@ class User extends ActiveModel implements \yii\web\IdentityInterface
      */
     public function insert($runValidation = true, $attributes = null)
     {
-//        TODO: Провести рефакторинг, добавить тесты
+//        TODO: Провести рефакторинг, добавить тесты, function beforeSave
         
         if (!empty($this->password_hash) and $this->password_hash == $this->password_hash_repeat) {
             $this->password_hash = \Yii::$app->helpers->generatePasswordHash($this->password_hash);

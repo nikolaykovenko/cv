@@ -7,10 +7,13 @@
 
 namespace app\ncmscore\controllers;
 
+use app\models\User;
 use app\ncmscore\core\Helpers;
 use app\ncmscore\models\ActiveModel;
+use app\ncmscore\models\LoginForm;
 use SebastianBergmann\Exporter\Exception;
 use Yii;
+use yii\filters\AccessControl;
 
 /**
  * Базовый класс админки
@@ -32,6 +35,32 @@ class BaseAdminController extends BaseController
      * @var string шаблон
      */
     public $layout = 'admin';
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'denyCallback' => function () {
+                    $this->redirect(['admin/login']);
+                },
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['login'],
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
 
     /**
@@ -132,7 +161,24 @@ class BaseAdminController extends BaseController
      */
     public function actionLogin()
     {
-        return $this->renderPartial('@ncms-core-views/admin/login');
+        $form = new LoginForm();
+        $form->setUserModel(new User());
+        
+        if ($form->load(Yii::$app->request->post()) and $form->login()) {
+            $this->redirect(['/admin']);
+        }
+        
+        return $this->renderPartial('@ncms-core-views/admin/login', ['loginForm' => $form]);
+    }
+
+    /**
+     * Logout
+     * @return void
+     */
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+        $this->redirect(['/admin']);
     }
 
     /**

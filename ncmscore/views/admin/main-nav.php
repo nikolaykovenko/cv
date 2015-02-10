@@ -14,5 +14,7 @@ use \yii\helpers\Url;
                         href="<?= Url::toRoute(['admin/index', 'model' => $model]) ?>"><?= $caption ?></a></li>
             <?php endforeach ?>
         <?php endforeach ?>
+        <li><h5 class="h">Выход</h5></li>
+        <li><a href="<?= Url::toRoute(['admin/logout']); ?>">Выйти</a></li>
     </ul>
 </nav>
