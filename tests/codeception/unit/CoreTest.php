@@ -164,6 +164,24 @@ class CoreTest extends yii\codeception\TestCase
         $this->assertEquals($oldId, $user->id);
         
         
+//        Изменение логина администратора без пароля
+        $user = User::findByUsername('admin');
+        $auth = [
+            'username' => 'admin',
+            'password_hash' => '',
+            'password_hash_repeat' => '',
+        ];
+        $user->attributes = $auth;
+        $this->assertTrue($user->save());
+        
+//        Попытка сохранить новую учетную запись без пароля
+        $user = new User();
+        $user->scenario = 'create';
+        $user->attributes = $auth;
+        $this->assertFalse($user->save());
+        
+        
+        
 //        Тестирование аутентификации
         $auth = [
             'username' => 'admin',
