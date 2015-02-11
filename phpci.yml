@@ -3,6 +3,7 @@ build_settings:
         - "vendor"
         - "tests"
         - "views"
+        - "migrations"
 
 setup:
     composer:
@@ -15,6 +16,8 @@ setup:
         - "cd %PHPCI_BUILD_PATH%/config && sed \"s|dbname=\([^']*\)|dbname=\1_tests|g\" db.php > .temp && mv .temp db.php"
         - "cd %PHPCI_BUILD_PATH%/config && sed \"s|username' \{0,\}=> '[^']*'\{0,\}|username' => 'u_ci'|g\" db.php > .temp && mv .temp db.php"
         - "cd %PHPCI_BUILD_PATH%/config && sed \"s|password' \{0,\}=> '[^']*'\{0,\}|password' => 'ci-password'|g\" db.php > .temp && mv .temp db.php"
+        
+        - "cd %PHPCI_BUILD_PATH% && php yii migrate --interactive=0"
 
         - "cd ~/www/ci-release.wedes.net &&  ln -s %BUILD%/web release"
 

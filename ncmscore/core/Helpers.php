@@ -98,6 +98,6 @@ class Helpers extends Component
             return '';
         }
         
-        return \Yii::$app->getSecurity()->generatePasswordHash($password);
+        return \Yii::$app->getSecurity()->generatePasswordHash($password, 10);
     }
 }

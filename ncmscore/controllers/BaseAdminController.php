@@ -13,6 +13,7 @@ use app\ncmscore\models\ActiveModel;
 use app\ncmscore\models\LoginForm;
 use SebastianBergmann\Exporter\Exception;
 use Yii;
+use yii\db\mysql\QueryBuilder;
 use yii\filters\AccessControl;
 
 /**

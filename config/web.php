@@ -7,6 +7,10 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
+        'appSettings' => [
+            'class' => 'app\ncmscore\core\Config',
+            'model' => 'app\models\Settings',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'Kfq5tcBrVlG1JpAovRFekPfWMb5WSxsM',
