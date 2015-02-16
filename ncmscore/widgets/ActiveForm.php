@@ -11,6 +11,7 @@ use app\ncmscore\core\ModelColumnsExploder;
 use app\ncmscore\models\ActiveModel;
 use yii\base\Exception;
 use yii\db\ActiveQuery;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveField;
 
@@ -130,7 +131,10 @@ class ActiveForm extends \yii\widgets\ActiveForm
                 /** @var ActiveModel $obj */
                 $model = new $className();
 
-                $dropDown = $model::find()->select('caption')->indexBy('id')->column();
+                $dropDown = ArrayHelper::getColumn(
+                    $model::find()->select(['id', 'caption'])->indexBy('id')->asArray()->all(),
+                    'caption'
+                );
                 $result->dropDownList($dropDown);
                 break;
 
