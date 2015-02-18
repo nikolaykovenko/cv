@@ -19,7 +19,8 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "fxp/composer-asset-plugin": "1.0.0-beta2",
-        "codeception/codeception": "*"
+        "codeception/codeception": "*",
+        "codeception/aspect-mock": "0.5.*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

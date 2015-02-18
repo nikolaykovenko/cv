@@ -7,6 +7,7 @@
 
 use \Codeception\Util\Debug;
 use \app\models\User;
+use \AspectMock\Test;
 
 /**
  * Тестирование базовых элементов ядра
@@ -17,6 +18,7 @@ class CoreTest extends yii\codeception\TestCase
     protected function setUp()
     {
         parent::setUp();
+        Test::clean();
         $this->transaction = \Yii::$app->db->beginTransaction();
     }
 
@@ -203,5 +205,28 @@ class CoreTest extends yii\codeception\TestCase
         $this->assertGreaterThan(0, $LoggedUserId);
         Yii::$app->user->logout();
         $this->assertNull(Yii::$app->user->getId());
+    }
+
+    /**
+     * Тестирование модуля параметров конфигурации
+     */
+    public function testAppSettings()
+    {
+        $modelName = '\app\models\Settings';
+        
+        $query = Test::double(new \yii\db\ActiveQuery($modelName), ['all' => [
+            (object) ['id' => 2, 'param' => 'home_url', 'value' => 'url_of_home_page'],
+        ]]);
+        $this->assertCount(1, $query->all());
+        
+        Test::double($modelName, ['find' => $query]);
+        
+        /** @var \app\ncmscore\core\Config $settings */
+        $settings = Yii::$app->get('appSettings');
+        $settings->setModel(new $modelName());
+        
+        $this->assertEquals('url_of_home_page', $settings->param('home_url'));
+        $this->assertEmpty($settings->param('test_param'));
+        $query->verifyInvokedMultipleTimes('all', 2);
     }
 }

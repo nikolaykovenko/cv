@@ -18,25 +18,14 @@ class Config extends Component
 {
 
     /**
-     * @var array значения параметров
+     * @var array|null значения параметров
      */
-    private $params = [];
+    private $params = null;
 
     /**
      * @var ActiveModel
      */
     private $model;
-
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        parent::init();
-        
-        $this->loadConfigParams();
-        $this->loadDBParams();
-    }
 
     /**
      * Возвращает значение параметра
@@ -45,6 +34,11 @@ class Config extends Component
      */
     public function param($param)
     {
+        if (is_null($this->params)) {
+            $this->loadConfigParams();
+            $this->loadDBParams();
+        }
+        
         if (isset($this->params[$param])) {
             return $this->params[$param];
         }
@@ -53,16 +47,26 @@ class Config extends Component
     }
 
     /**
-     * Устанавливает модель с настройками приложения
+     * Устанавливает название модели с настройками приложения
      * @param string $modelName
      * @return $this
      * @throws \Exception в случае неудачи
      */
-    public function setModel($modelName)
+    public function setModelName($modelName)
     {
         $model = \Yii::createObject($modelName);
-        $this->model = new $model;
+        return $this->setModel($model);
+    }
 
+    /**
+     * Устанавливает модель с настройками приложения
+     * @param ActiveModel $model
+     * @return $this
+     */
+    public function setModel(ActiveModel $model)
+    {
+        $this->model = $model;
+        $this->params = null;
         return $this;
     }
 

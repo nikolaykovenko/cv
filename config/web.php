@@ -9,7 +9,7 @@ $config = [
     'components' => [
         'appSettings' => [
             'class' => 'app\ncmscore\core\Config',
-            'model' => 'app\models\Settings',
+            'modelName' => 'app\models\Settings',
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
